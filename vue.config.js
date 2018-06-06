@@ -18,7 +18,14 @@ module.exports = {
 
     // tweak internal webpack configuration.
     // see https://github.com/vuejs/vue-cli/blob/dev/docs/webpack.md
-    chainWebpack: () => {},
+    chainWebpack: config => {
+        config
+            .plugin('extract-css')
+            .tap(([options, ...args]) => [
+                Object.assign({}, options, { filename: 'css/[name].css'}),
+                ...args
+            ]);
+    },
 
     configureWebpack: {
         entry: {
@@ -28,7 +35,7 @@ module.exports = {
         output: {
             // path: path.resolve(__dirname, "derpy"),
             filename: "./js/[name].js"
-        }
+        },        
     },
 
     css: {
